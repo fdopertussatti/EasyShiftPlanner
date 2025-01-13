@@ -1,0 +1,913 @@
+/* Material Design 3 Variables */
+:root {
+    /* Colors - Light Theme */
+    --md-sys-color-primary: #6750A4;
+    --md-sys-color-primary-container: #EADDFF;
+    --md-sys-color-secondary: #625B71;
+    --md-sys-color-secondary-container: #E8DEF8;
+    --md-sys-color-surface: #FEF7FF;
+    --md-sys-color-surface-variant: #E7E0EC;
+    --md-sys-color-background: #FFFBFE;
+    --md-sys-color-error: #B3261E;
+    --md-sys-color-on-primary: #FFFFFF;
+    --md-sys-color-on-primary-container: #21005E;
+    --md-sys-color-on-secondary: #FFFFFF;
+    --md-sys-color-on-secondary-container: #1E192B;
+    --md-sys-color-on-surface: #1C1B1F;
+    --md-sys-color-on-surface-variant: #49454F;
+    --md-sys-color-outline: #79747E;
+
+    /* Elevation */
+    --md-sys-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --md-sys-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --md-sys-elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --md-sys-color-primary: #D0BCFF;
+    --md-sys-color-primary-container: #4F378B;
+    --md-sys-color-secondary: #CCC2DC;
+    --md-sys-color-secondary-container: #4A4458;
+    --md-sys-color-surface: #1C1B1F;
+    --md-sys-color-surface-variant: #49454F;
+    --md-sys-color-background: #141218;
+    --md-sys-color-error: #F2B8B5;
+    --md-sys-color-on-primary: #381E72;
+    --md-sys-color-on-primary-container: #EADDFF;
+    --md-sys-color-on-secondary: #332D41;
+    --md-sys-color-on-secondary-container: #E8DEF8;
+    --md-sys-color-on-surface: #E6E1E5;
+    --md-sys-color-on-surface-variant: #CAC4D0;
+    --md-sys-color-outline: #938F99;
+}
+
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, sans-serif;
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-surface);
+    min-height: 100vh;
+}
+
+/* Layout */
+.mdc-top-app-bar--fixed-adjust {
+    padding-top: 64px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Top App Bar */
+.mdc-top-app-bar {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    box-shadow: var(--md-sys-elevation-2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.mdc-top-app-bar__title {
+    color: var(--md-sys-color-primary);
+    font-weight: 500;
+}
+
+/* Controls */
+.font-controls {
+    display: flex;
+    gap: 8px;
+    margin: 0 16px;
+    align-items: center;
+}
+
+/* Date Navigation */
+.date-navigation {
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: var(--md-sys-color-surface);
+    border-radius: 8px;
+    box-shadow: var(--md-sys-elevation-1);
+    text-align: center;
+}
+
+.date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 8px;
+}
+
+.headline-medium {
+    margin: 0;
+    color: var(--md-sys-color-on-surface);
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Action Buttons */
+.actions-card {
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: var(--md-sys-color-surface);
+    border-radius: 8px;
+    box-shadow: var(--md-sys-elevation-1);
+}
+
+.mdc-card__action-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* Calendar */
+.calendar {
+    background-color: var(--md-sys-color-surface);
+    border-radius: 8px;
+    box-shadow: var(--md-sys-elevation-1);
+    overflow: hidden;
+    margin-bottom: 24px;
+    padding: 0;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    padding: 12px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.weekday {
+    padding: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--md-sys-color-outline);
+    padding: 1px;
+}
+
+.day {
+    background: var(--md-sys-color-surface);
+    min-height: 120px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.day:hover {
+    background: var(--md-sys-color-surface-variant);
+}
+
+.day.empty {
+    background: var(--md-sys-color-surface-variant);
+    cursor: default;
+}
+
+.day-number {
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.schedule-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+}
+
+.schedule-item {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    padding: 8px;
+    margin: 4px 0;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.schedule-time {
+    font-weight: 500;
+}
+
+.schedule-employee {
+    font-size: 0.8125rem;
+}
+
+/* Dialog */
+.mdc-dialog .mdc-dialog__surface {
+    min-width: 680px;
+    max-width: 85vw;
+    max-height: 85vh;
+}
+
+.mdc-dialog .mdc-dialog__title {
+    border-bottom: 1px solid var(--md-sys-color-outline);
+    padding: 16px 24px;
+    margin: 0;
+}
+
+.mdc-dialog .mdc-dialog__content {
+    padding: 16px 24px;
+}
+
+.schedule-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.schedule-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: calc(65vh - 160px);
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Entrada de Escala */
+.schedule-entry {
+    display: grid;
+    grid-template-columns: minmax(160px, 1fr) minmax(160px, 1fr) minmax(200px, 2fr) 40px;
+    gap: 16px;
+    align-items: center;
+    background: var(--md-sys-color-surface-variant);
+    padding: 16px;
+    border-radius: 8px;
+}
+
+/* Campos de tempo */
+.time-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.time-field-label {
+    font-size: 0.75rem;
+    color: var(--md-sys-color-on-surface-variant);
+    margin-left: 4px;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.time-field-group {
+    display: flex;
+    gap: 8px;
+    height: 40px;
+}
+
+.time-input {
+    flex: 3;
+    height: 40px;
+    padding: 8px 12px;
+    padding-right: 40px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 120px;
+}
+
+.period-select {
+    flex: 1;
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    min-width: 70px;
+    max-width: 80px;
+    box-sizing: border-box;
+}
+
+/* Campo Funcionário */
+.employee-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.employee-input {
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botão remover */
+.remove-entry {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--md-sys-color-error);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    margin-top: 24px; /* Compensa a altura do label */
+}
+
+.remove-entry:hover {
+    background: rgba(179, 38, 30, 0.08);
+}
+
+#addEntry {
+    margin-top: 8px;
+}
+
+.mdc-dialog__actions {
+    border-top: 1px solid var(--md-sys-color-outline);
+    padding: 8px 24px;
+    gap: 8px;
+}
+
+/* Scrollbar */
+.schedule-entries::-webkit-scrollbar {
+    width: 6px;
+}
+
+.schedule-entries::-webkit-scrollbar-track {
+    background: var(--md-sys-color-surface-variant);
+    border-radius: 3px;
+}
+
+.schedule-entries::-webkit-scrollbar-thumb {
+    background: var(--md-sys-color-primary);
+    border-radius: 3px;
+}
+
+/* Responsividade */
+@media (max-width: 960px) {
+    .mdc-dialog .mdc-dialog__surface {
+        min-width: unset;
+        width: 92vw;
+    }
+
+    .schedule-entry {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .remove-entry {
+        margin-top: 0;
+        align-self: center;
+    }
+
+    .time-field-group {
+        width: 100%;
+    }
+}
+
+/* MDC Components Customization */
+.mdc-button {
+    text-transform: none;
+}
+
+.mdc-button--raised {
+    background-color: var(--md-sys-color-primary) !important;
+    color: var(--md-sys-color-on-primary) !important;
+}
+
+.mdc-icon-button {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.mdc-text-field--outlined {
+    width: 100%;
+    margin-bottom: 24px;
+    background-color: var(--md-sys-color-surface);
+}
+
+.mdc-select {
+    min-width: 170px;
+    margin: 0 16px;
+}
+
+.mdc-select--filled {
+    --mdc-theme-primary: var(--md-sys-color-primary);
+    --mdc-theme-surface: var(--md-sys-color-surface);
+    --mdc-theme-on-surface: var(--md-sys-color-on-surface);
+}
+
+.mdc-select__anchor {
+    background-color: var(--md-sys-color-surface-variant) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+
+    .schedule-entry {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .mdc-card__action-buttons {
+        flex-direction: column;
+    }
+
+    .day {
+        min-height: 80px;
+        padding: 8px;
+    }
+
+    .mdc-top-app-bar__section--align-end {
+        gap: 8px;
+    }
+
+    .time-container {
+        width: 100%;
+    }
+
+    .employee-container {
+        width: 100%;
+    }
+
+    .time-input,
+    .employee-input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Utility Classes */
+.material-icons {
+    vertical-align: middle;
+}
+
+.time-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 140px;
+}
+
+.time-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.time-input {
+    flex: 1;
+    height: 36px;
+    padding: 8px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 4px;
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    font-size: 0.875rem;
+}
+
+.period-select {
+    width: 60px;
+    height: 36px;
+    padding: 8px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 4px;
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    font-size: 0.875rem;
+}
+
+.mdc-typography--caption {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.75rem;
+}
+
+/* Container para o campo de funcionário */
+.employee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+/* Label para o campo de funcionário */
+.employee-label {
+    margin-bottom: 4px;
+}
+
+/* Ajuste para o input do funcionário */
+.employee-input {
+    height: 36px;
+    padding: 8px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 4px;
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    font-size: 0.875rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Floating labels */
+.mdc-floating-label {
+    font-size: 0.875rem;
+}
+
+.mdc-floating-label--float-above {
+    transform: translateY(-106%) scale(0.75);
+}
+
+/* Estilos para inputs desabilitados */
+.mdc-text-field--disabled .mdc-text-field__input {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Ajuste de espaçamento para labels flutuantes */
+.mdc-text-field--outlined .mdc-notched-outline__notch {
+    padding-top: 0;
+}
+
+/* Melhor alinhamento vertical dos inputs */
+.mdc-text-field__input {
+    line-height: 1.15;
+}
+
+/* Hover states */
+.time-input:hover, .period-select:hover, .employee-input:hover {
+    border-color: var(--md-sys-color-on-surface);
+}
+
+.time-input:focus, .period-select:focus, .employee-input:focus {
+    border-color: var(--md-sys-color-primary);
+    outline: none;
+}
+
+/* Estilização dos inputs de tempo */
+.time-input::-webkit-calendar-picker-indicator {
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    position: absolute;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+}
+
+.time-input::-webkit-calendar-picker-indicator::after {
+    content: 'schedule';
+    font-family: 'Material Icons';
+    font-size: 20px;
+    color: var(--md-sys-color-primary);
+}
+
+.time-input::-webkit-datetime-edit {
+    padding: 0;
+    color: var(--md-sys-color-on-surface);
+}
+
+.time-input::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+}
+
+.time-input::-webkit-datetime-edit-hour-field,
+.time-input::-webkit-datetime-edit-minute-field {
+    padding: 0 2px;
+    background-color: transparent;
+}
+
+.time-input::-webkit-datetime-edit-hour-field:focus,
+.time-input::-webkit-datetime-edit-minute-field:focus {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    border-radius: 2px;
+}
+
+/* Estilo para o separador de tempo */
+.time-input::-webkit-datetime-edit-text {
+    color: var(--md-sys-color-on-surface-variant);
+    padding: 0 2px;
+}
+
+/* Estilo para o popup de seleção de tempo */
+::-webkit-time-picker-popup {
+    background-color: var(--md-sys-color-surface);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 8px;
+    box-shadow: var(--md-sys-elevation-2);
+    padding: 16px;
+}
+
+/* Firefox */
+.time-input {
+    position: relative;
+    padding-right: 40px;
+}
+
+/* Adiciona ícone personalizado para Firefox */
+.time-input::after {
+    content: 'schedule';
+    font-family: 'Material Icons';
+    font-size: 20px;
+    color: var(--md-sys-color-primary);
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Ajuste do container do input */
+.time-field-group {
+    position: relative;
+}
+
+/* Ajuste para o tema escuro */
+[data-theme="dark"] .time-input::-webkit-datetime-edit {
+    color: var(--md-sys-color-on-surface);
+}
+
+[data-theme="dark"] .time-input::-webkit-datetime-edit-hour-field:focus,
+[data-theme="dark"] .time-input::-webkit-datetime-edit-minute-field:focus {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+}
+
+[data-theme="dark"] ::-webkit-time-picker-popup {
+    background-color: var(--md-sys-color-surface);
+    border-color: var(--md-sys-color-outline);
+}
+
+/* Animações para feedback visual */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeBackground {
+    0% { background-color: var(--md-sys-color-surface-variant); }
+    50% { background-color: var(--md-sys-color-error-container); }
+    100% { background-color: var(--md-sys-color-surface-variant); }
+}
+
+.schedule-entry--shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+.schedule-entry--pulse {
+    animation: pulse 0.3s ease-in-out;
+}
+
+.schedule-entry--highlight {
+    animation: fadeBackground 1s ease-in-out;
+}
+
+.feedback-icon {
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: slideIn 0.3s ease-out;
+}
+
+.feedback-icon__symbol {
+    font-size: 24px;
+    color: var(--md-sys-color-error);
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-50%) translateX(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+.mdc-ripple {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mdc-ripple--error {
+    background: var(--md-sys-color-error);
+}
+
+.mdc-ripple--active {
+    opacity: 0.12;
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    from { transform: scale(0.8); opacity: 0.2; }
+    to { transform: scale(1); opacity: 0; }
+}
+
+.status-badge {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    animation: badgeIn 0.3s ease-out;
+    transition: all 0.3s ease;
+}
+
+.status-badge--warning {
+    background: var(--md-sys-color-error);
+    color: var(--md-sys-color-on-error);
+}
+
+.status-badge--hide {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+
+@keyframes badgeIn {
+    from { 
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Estilos para campos com erro */
+.time-input.invalid,
+.period-select.invalid {
+    border-color: var(--md-sys-color-error);
+    background-color: var(--md-sys-color-error-container);
+    color: var(--md-sys-color-on-error-container);
+}
+
+.time-field-label.invalid {
+    color: var(--md-sys-color-error);
+}
+
+/* Tooltip de erro */
+.error-tooltip {
+    position: absolute;
+    background: var(--md-sys-color-error);
+    color: var(--md-sys-color-on-error);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    bottom: -24px;
+    left: 0;
+    white-space: nowrap;
+    z-index: 1;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.error-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 8px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid var(--md-sys-color-error);
+}
+
+/* Área de mensagens de feedback */
+.feedback-messages {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.feedback-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    animation: slideDown 0.3s ease-out;
+    transition: all 0.3s ease;
+}
+
+.feedback-message--warning {
+    background: var(--md-sys-color-error-container);
+    color: var(--md-sys-color-on-error-container);
+    border-left: 4px solid var(--md-sys-color-error);
+}
+
+.feedback-message--info {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    border-left: 4px solid var(--md-sys-color-secondary);
+}
+
+.feedback-message__icon {
+    color: var(--md-sys-color-error);
+}
+
+.feedback-message__content {
+    flex: 1;
+    font-weight: 500;
+}
+
+.feedback-message__close {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.feedback-message__close:hover {
+    opacity: 1;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Botões de exportação */
+.actions-card .mdc-button {
+    gap: 8px;
+    padding: 0 16px;
+    height: 40px;
+}
+
+.actions-card .material-icons {
+    font-size: 20px;
+}
+
+/* Responsividade para os botões de exportação */
+@media (max-width: 768px) {
+    .actions-card .mdc-card__action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .actions-card .mdc-button {
+        width: 100%;
+        justify-content: flex-start;
+    }
+} 

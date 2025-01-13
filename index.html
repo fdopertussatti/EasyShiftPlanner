@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyShift Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <meta name="description" content="Simple and efficient shift scheduling solution">
+    <meta name="theme-color" content="#6750A4" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#381E72" media="(prefers-color-scheme: dark)">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="js/export.js"></script>
+</head>
+<body>
+    <!-- Top App Bar -->
+    <header class="mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <span class="mdc-top-app-bar__title">EasyShift Planner</span>
+            </section>
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+                <button id="themeToggle" class="mdc-icon-button material-icons">
+                    dark_mode
+                </button>
+                <div class="font-controls">
+                    <button class="mdc-button" id="decreaseFont">
+                        <span class="mdc-button__ripple"></span>
+                        <span class="mdc-button__label">A-</span>
+                    </button>
+                    <button class="mdc-button" id="resetFont">
+                        <span class="mdc-button__ripple"></span>
+                        <span class="mdc-button__label">A</span>
+                    </button>
+                    <button class="mdc-button" id="increaseFont">
+                        <span class="mdc-button__ripple"></span>
+                        <span class="mdc-button__label">A+</span>
+                    </button>
+                </div>
+                <div class="mdc-select mdc-select--filled">
+                    <div class="mdc-select__anchor">
+                        <span class="mdc-select__ripple"></span>
+                        <span class="mdc-select__selected-text"></span>
+                        <span class="mdc-select__dropdown-icon">
+                            <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5">
+                                <polygon class="mdc-select__dropdown-icon-inactive" stroke="none" fill-rule="evenodd" points="7 10 12 15 17 10"></polygon>
+                                <polygon class="mdc-select__dropdown-icon-active" stroke="none" fill-rule="evenodd" points="7 15 12 10 17 15"></polygon>
+                            </svg>
+                        </span>
+                        <span class="mdc-floating-label">Idioma</span>
+                        <span class="mdc-line-ripple"></span>
+                    </div>
+                    <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
+                        <ul class="mdc-list">
+                            <li class="mdc-list-item mdc-list-item--selected" data-value="pt" aria-selected="true">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__text">Português</span>
+                            </li>
+                            <li class="mdc-list-item" data-value="en">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__text">English</span>
+                            </li>
+                            <li class="mdc-list-item" data-value="es">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__text">Español</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </header>
+
+    <main class="mdc-top-app-bar--fixed-adjust">
+        <div class="container">
+            <!-- Data Navigation -->
+            <div class="mdc-card date-navigation">
+                <div class="date-selector">
+                    <button class="mdc-icon-button material-icons" id="prevMonth">
+                        chevron_left
+                    </button>
+                    <h2 id="currentMonth" class="headline-medium"></h2>
+                    <button class="mdc-icon-button material-icons" id="nextMonth">
+                        chevron_right
+                    </button>
+                </div>
+            </div>
+
+            <!-- Company Info -->
+            <div class="mdc-text-field mdc-text-field--outlined">
+                <input type="text" id="companyName" class="mdc-text-field__input" aria-labelledby="company-name-label">
+                <span class="mdc-notched-outline">
+                    <span class="mdc-notched-outline__leading"></span>
+                    <span class="mdc-notched-outline__notch">
+                        <span id="company-name-label" class="mdc-floating-label">Nome da Empresa</span>
+                    </span>
+                    <span class="mdc-notched-outline__trailing"></span>
+                </span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mdc-card actions-card">
+                <div class="mdc-card__action-buttons">
+                    <button class="mdc-button mdc-button--raised" id="exportPDF">
+                        <span class="material-icons">picture_as_pdf</span>
+                        <span class="mdc-button__label">Exportar PDF</span>
+                    </button>
+                    <button class="mdc-button mdc-button--raised" id="exportExcel">
+                        <span class="material-icons">table_view</span>
+                        <span class="mdc-button__label">Exportar Excel</span>
+                    </button>
+                    <button class="mdc-button mdc-button--raised" id="exportCSV">
+                        <span class="material-icons">description</span>
+                        <span class="mdc-button__label">Exportar CSV</span>
+                    </button>
+                    <button class="mdc-button mdc-button--raised" id="shareEmail">
+                        <span class="material-icons">email</span>
+                        <span class="mdc-button__label">Compartilhar por Email</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="mdc-card calendar">
+                <div class="weekdays"></div>
+                <div id="days" class="days"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="scheduleModal" class="mdc-dialog">
+        <div class="mdc-dialog__container">
+            <div class="mdc-dialog__surface">
+                <h2 class="mdc-dialog__title">Definir Escala - <span id="selectedDate"></span></h2>
+                <button class="mdc-icon-button material-icons mdc-dialog__close" aria-label="Fechar">close</button>
+                <div class="mdc-dialog__content">
+                    <div id="scheduleForm" class="schedule-form">
+                        <div class="schedule-entries mdc-layout-grid">
+                            <!-- Entradas de escala serão inseridas aqui -->
+                        </div>
+                        <button id="addEntry" class="mdc-button mdc-button--raised">
+                            <span class="mdc-button__ripple"></span>
+                            <i class="material-icons mdc-button__icon">add</i>
+                            <span class="mdc-button__label">Adicionar funcionário</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="mdc-dialog__actions">
+                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">
+                        <span class="mdc-button__ripple"></span>
+                        <span class="mdc-button__label">Cancelar</span>
+                    </button>
+                    <button type="button" class="mdc-button mdc-button--raised mdc-dialog__button" id="saveSchedule">
+                        <span class="mdc-button__ripple"></span>
+                        <span class="mdc-button__label">Salvar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mdc-dialog__scrim"></div>
+    </div>
+
+    <!-- Snackbar para mensagens -->
+    <div class="mdc-snackbar">
+        <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+            <div class="mdc-snackbar__label" aria-atomic="false"></div>
+            <div class="mdc-snackbar__actions" aria-atomic="true">
+                <button type="button" class="mdc-button mdc-snackbar__action">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Fechar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/schedule.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html> 

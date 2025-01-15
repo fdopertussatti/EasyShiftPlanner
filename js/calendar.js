@@ -2,7 +2,7 @@ class Calendar {
     constructor() {
         this.currentDate = new Date();
         this.selectedDate = null;
-        this.weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        this.weekDays = ['Sun', 'Mon', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
         this.init();
     }
 
@@ -106,4 +106,88 @@ class Calendar {
             }
         });
     }
+}
+
+function generatePrintView() {
+    const calendarData = getCalendarData();
+    const printContainer = document.createElement('div');
+    printContainer.className = 'print-calendar';
+
+    const daysOfWeek = I18n.translate('daysOfWeek');
+    const months = I18n.translate('months');
+    const currentDate = new Date();
+    const monthName = months[currentDate.getMonth()];
+    const year = currentDate.getFullYear();
+
+    let html = `<div class="print-header">
+                    <span class="company-name">${document.getElementById('companyName').value}</span>
+                    <span class="month-year">${monthName} ${year}</span>
+                    <span class="print-date">${I18n.translate('printDate')}: ${new Date().toLocaleDateString()}</span>
+                </div>
+                <table class="print-calendar-table"><thead><tr>`;
+
+    daysOfWeek.forEach(day => {
+        html += `<th>${day}</th>`;
+    });
+
+    html += '</tr></thead><tbody>';
+
+    // Inicializa uma linha vazia para cada semana
+    let weekRow = new Array(7).fill('<td></td>');
+
+    calendarData.forEach((dayData, index) => {
+        const date = new Date(dayData.date + 'T00:00:00'); // Assegura que a data é interpretada corretamente
+        const dayOfWeek = date.getDay(); // Obtém o índice do dia da semana (0 = Domingo, 6 = Sábado)
+
+        // Adiciona os registros na coluna correta
+        if (!weekRow[dayOfWeek].includes('<ul>')) {
+            weekRow[dayOfWeek] = `<td><strong>${dayData.date}</strong><ul>`;
+        }
+        dayData.entries.forEach(entry => {
+            weekRow[dayOfWeek] += `<li>${entry.employee}: ${entry.startTime} - ${entry.endTime}</li>`;
+        });
+        weekRow[dayOfWeek] += '</ul></td>';
+
+        // Se for sábado (último dia da semana), fecha a linha e inicia uma nova
+        if (dayOfWeek === 6 || index === calendarData.length - 1) {
+            html += `<tr>${weekRow.join('')}</tr>`;
+            weekRow = new Array(7).fill('<td></td>'); // Reseta a linha para a próxima semana
+        }
+    });
+
+    html += '</tbody></table>';
+    printContainer.innerHTML = html;
+
+    document.body.appendChild(printContainer);
+}
+
+function getCalendarData() {
+    const calendarData = [];
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    // Ajuste para obter o primeiro dia do mês
+    const firstDayOfMonth = new Date(year, month, 1);
+    const firstDayOfWeek = firstDayOfMonth.getDay(); // Dia da semana do primeiro dia do mês
+
+    // Logs para depuração
+    console.log(`Primeiro dia do mês: ${firstDayOfMonth.toDateString()}`);
+    console.log(`Dia da semana do primeiro dia do mês: ${firstDayOfWeek}`);
+
+    for (let day = 1; day <= 30; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const entries = Storage.getSchedule(dateStr);
+
+        calendarData.push({
+            date: dateStr,
+            entries: entries.map(entry => ({
+                employee: entry.employee,
+                startTime: `${entry.startTime} ${entry.startPeriod}`,
+                endTime: `${entry.endTime} ${entry.endPeriod}`
+            }))
+        });
+    }
+
+    return calendarData;
 } 

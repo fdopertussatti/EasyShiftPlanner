@@ -17,13 +17,15 @@
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="js/export.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <!-- Top App Bar -->
     <header class="mdc-top-app-bar">
         <div class="mdc-top-app-bar__row">
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                <span class="mdc-top-app-bar__title">EasyShift Planner</span>
+                <span class="mdc-top-app-bar__title" data-i18n="appTitle">EasyShift Planner</span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                 <button id="themeToggle" class="mdc-icon-button material-icons">
@@ -46,23 +48,23 @@
                 <div class="mdc-select mdc-select--filled">
                     <div class="mdc-select__anchor">
                         <span class="mdc-select__ripple"></span>
-                        <span class="mdc-select__selected-text"></span>
+                        <span class="mdc-select__selected-text" data-i18n="language">Idioma</span>
                         <span class="mdc-select__dropdown-icon">
                             <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5">
                                 <polygon class="mdc-select__dropdown-icon-inactive" stroke="none" fill-rule="evenodd" points="7 10 12 15 17 10"></polygon>
                                 <polygon class="mdc-select__dropdown-icon-active" stroke="none" fill-rule="evenodd" points="7 15 12 10 17 15"></polygon>
                             </svg>
                         </span>
-                        <span class="mdc-floating-label">Idioma</span>
+                        <span class="mdc-floating-label" data-i18n="language">Idioma</span>
                         <span class="mdc-line-ripple"></span>
                     </div>
                     <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
                         <ul class="mdc-list">
-                            <li class="mdc-list-item mdc-list-item--selected" data-value="pt" aria-selected="true">
+                            <li class="mdc-list-item" data-value="pt">
                                 <span class="mdc-list-item__ripple"></span>
                                 <span class="mdc-list-item__text">Português</span>
                             </li>
-                            <li class="mdc-list-item" data-value="en">
+                            <li class="mdc-list-item mdc-list-item--selected" data-value="en" aria-selected="true">
                                 <span class="mdc-list-item__ripple"></span>
                                 <span class="mdc-list-item__text">English</span>
                             </li>
@@ -98,7 +100,7 @@
                 <span class="mdc-notched-outline">
                     <span class="mdc-notched-outline__leading"></span>
                     <span class="mdc-notched-outline__notch">
-                        <span id="company-name-label" class="mdc-floating-label">Nome da Empresa</span>
+                        <label id="company-name-label" class="mdc-floating-label" for="companyName" data-i18n="companyName">Nome da Empresa</label>
                     </span>
                     <span class="mdc-notched-outline__trailing"></span>
                 </span>
@@ -107,22 +109,27 @@
             <!-- Action Buttons -->
             <div class="mdc-card actions-card">
                 <div class="mdc-card__action-buttons">
-                    <button class="mdc-button mdc-button--raised" id="exportPDF">
-                        <span class="material-icons">picture_as_pdf</span>
-                        <span class="mdc-button__label">Exportar PDF</span>
+                    <button class="mdc-button mdc-button--raised" id="returnButton" style="display: none;">
+                        <span class="material-icons">arrow_back</span>
+                        <span class="mdc-button__label">Return</span>
                     </button>
-                    <button class="mdc-button mdc-button--raised" id="exportExcel">
-                        <span class="material-icons">table_view</span>
-                        <span class="mdc-button__label">Exportar Excel</span>
+                    <button class="mdc-button mdc-button--raised" id="togglePrintView">
+                        <span class="material-icons">print</span>
+                        <span class="mdc-button__label" data-i18n="printView">Print View</span>
                     </button>
-                    <button class="mdc-button mdc-button--raised" id="exportCSV">
-                        <span class="material-icons">description</span>
-                        <span class="mdc-button__label">Exportar CSV</span>
+                    <button class="mdc-button mdc-button--raised" id="printButton" style="display: none;">
+                        <span class="material-icons">print</span>
+                        <span class="mdc-button__label">Print</span>
                     </button>
-                    <button class="mdc-button mdc-button--raised" id="shareEmail">
-                        <span class="material-icons">email</span>
-                        <span class="mdc-button__label">Compartilhar por Email</span>
+                    <button class="mdc-button mdc-button--raised" id="downloadData">
+                        <span class="material-icons">download</span>
+                        <span class="mdc-button__label">Download Dados</span>
                     </button>
+                    <button class="mdc-button mdc-button--raised" id="uploadData">
+                        <span class="material-icons">upload</span>
+                        <span class="mdc-button__label">Upload Dados</span>
+                    </button>
+                    <input type="file" id="uploadFileInput" style="display: none;" accept=".esp">
                 </div>
             </div>
 
@@ -148,7 +155,7 @@
                         <button id="addEntry" class="mdc-button mdc-button--raised">
                             <span class="mdc-button__ripple"></span>
                             <i class="material-icons mdc-button__icon">add</i>
-                            <span class="mdc-button__label">Adicionar funcionário</span>
+                            <span class="mdc-button__label" data-i18n="addEmployee">Adicionar Funcionário</span>
                         </button>
                     </div>
                 </div>
@@ -181,6 +188,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="js/i18n.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/schedule.js"></script>

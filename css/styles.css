@@ -58,7 +58,7 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 24px;
 }
@@ -157,21 +157,23 @@ body {
 
 .days {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
+    grid-template-columns: repeat(7, minmax(70px, 1fr));
+    gap: 0;
     background: var(--md-sys-color-outline);
-    padding: 1px;
+    padding: 0;
 }
 
 .day {
     background: var(--md-sys-color-surface);
-    min-height: 120px;
-    padding: 12px;
+    min-height: 100px;
+    padding: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .day:hover {
@@ -199,23 +201,31 @@ body {
 }
 
 .schedule-item {
-    background: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
-    padding: 8px;
-    margin: 4px 0;
-    border-radius: 4px;
-    font-size: 0.875rem;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--md-sys-color-outline);
+    font-size: 0.75rem;
+    box-sizing: border-box;
 }
 
 .schedule-time {
-    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
 }
 
 .schedule-employee {
-    font-size: 0.8125rem;
+    width: 100%;
+    text-align: left;
+    font-size: 0.75rem;
 }
 
 /* Dialog */
@@ -910,4 +920,180 @@ body {
         width: 100%;
         justify-content: flex-start;
     }
+}
+
+.print-calendar {
+    display: none; /* Inicialmente escondido */
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.print-calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.print-calendar-table th, .print-calendar-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.print-calendar-table th {
+    background-color: #f2f2f2;
+    text-align: center;
+    white-space: nowrap; /* Impede a quebra de linha nos cabeçalhos */
+}
+
+.print-button {
+    margin: 10px 0;
+    padding: 8px 16px;
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.print-button:hover {
+    background-color: var(--md-sys-color-primary-container);
+}
+
+.print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: var(--md-sys-color-surface-variant);
+    border-radius: 8px;
+}
+
+.company-name, .month-year, .print-date {
+    font-size: 1rem;
+    color: var(--md-sys-color-on-surface);
+}
+
+.print-button {
+    margin: 10px 0;
+    padding: 8px 16px;
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.print-button:hover {
+    background-color: var(--md-sys-color-primary-container);
+}
+
+@media print {
+    @page {
+        size: A4 landscape; /* Define o tamanho da página como A4 em paisagem */
+        margin: 10mm; /* Define margens para a impressão */
+    }
+
+    body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: none; /* Remove a restrição de largura para impressão */
+        padding: 0;
+    }
+
+    .actions-card, .mdc-top-app-bar, .mdc-dialog, .mdc-snackbar {
+        display: none; /* Esconde elementos que não devem aparecer na impressão */
+    }
+
+    .print-calendar {
+        display: block; /* Garante que o calendário de impressão seja exibido */
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .print-calendar-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .print-calendar-table th, .print-calendar-table td {
+        border: 1px solid #ddd;
+        padding: 2px; /* Reduz o padding para maximizar o uso do espaço */
+        font-size: 0.65rem; /* Ajusta o tamanho da fonte para caber melhor */
+        white-space: nowrap; /* Impede a quebra de linha */
+        overflow: hidden; /* Esconde o conteúdo que ultrapassa o limite */
+        text-overflow: ellipsis; /* Adiciona reticências ao texto que ultrapassa o limite */
+    }
+
+    .print-calendar-table th {
+        background-color: #f2f2f2;
+        text-align: center;
+    }
+
+    .days {
+        grid-template-columns: repeat(7, minmax(45px, 1fr)); /* Ajusta ainda mais para impressão */
+    }
+
+    .day {
+        padding: 2px; /* Reduz o padding para impressão */
+    }
+}
+
+.print-calendar-table td {
+    white-space: nowrap; /* Impede a quebra de linha */
+    overflow: hidden; /* Esconde o conteúdo que ultrapassa o limite */
+    text-overflow: ellipsis; /* Adiciona reticências ao texto que ultrapassa o limite */
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 0.875rem;
+}
+
+.print-calendar-table th {
+    background-color: #f2f2f2;
+    text-align: center;
+    white-space: nowrap; /* Impede a quebra de linha nos cabeçalhos */
+}
+
+@media print {
+    .days {
+        grid-template-columns: repeat(7, minmax(45px, 1fr));
+    }
+
+    .day {
+        padding: 2px;
+    }
+
+    .print-calendar-table th, .print-calendar-table td {
+        padding: 2px;
+        font-size: 0.65rem;
+    }
+}
+
+.mdc-text-field--outlined .mdc-floating-label {
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.mdc-text-field--outlined .mdc-floating-label--float-above {
+    transform: translateY(-50%) scale(0.75);
+    color: var(--md-sys-color-primary);
+}
+
+.mdc-text-field--outlined .mdc-text-field__input {
+    background-color: var(--md-sys-color-surface);
+    transition: background-color 0.2s ease;
+}
+
+.mdc-text-field--outlined .mdc-text-field__input:focus {
+    background-color: var(--md-sys-color-primary-container);
+}
+
+.mdc-text-field--outlined .mdc-text-field__input:not(:focus) {
+    background-color: var(--md-sys-color-surface);
 } 

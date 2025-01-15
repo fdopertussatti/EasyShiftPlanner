@@ -1,0 +1,15 @@
+{
+    "appTitle": "EasyShift Planner",
+    "addEmployee": "Adicionar Funcionário",
+    "exportPDF": "Exportar PDF",
+    "exportExcel": "Exportar Excel",
+    "exportCSV": "Exportar CSV",
+    "shareEmail": "Compartilhar por Email",
+    "addExampleData": "Adicionar Dados de Exemplo",
+    "exampleDataAdded": "Dados de exemplo adicionados para o mês atual!",
+    "invalidTime": "O horário final deve ser maior que o horário inicial",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "companyName": "Nome da Empresa",
+    "language": "Idioma"
+} 

@@ -1,0 +1,15 @@
+{
+    "appTitle": "Planificador EasyShift",
+    "addEmployee": "Agregar Empleado",
+    "exportPDF": "Exportar PDF",
+    "exportExcel": "Exportar Excel",
+    "exportCSV": "Exportar CSV",
+    "shareEmail": "Compartir por Correo",
+    "addExampleData": "Agregar Datos de Ejemplo",
+    "exampleDataAdded": "¡Datos de ejemplo agregados para el mes actual!",
+    "invalidTime": "La hora de finalización debe ser mayor que la hora de inicio",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "companyName": "Nombre de la Empresa",
+    "language": "Idioma"
+} 

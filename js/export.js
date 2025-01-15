@@ -1,45 +1,48 @@
 class ExportManager {
     static async exportToPDF() {
-        // Importa dinamicamente a biblioteca jsPDF
-        const { jsPDF } = await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-        const doc = new jsPDF();
-        
-        const schedules = Storage.getAllSchedules();
-        const title = 'EasyShift Planner - Relatório de Escalas';
-        
-        doc.setFontSize(16);
-        doc.text(title, 20, 20);
-        
-        let yPos = 40;
-        Object.entries(schedules).forEach(([date, daySchedules]) => {
-            const formattedDate = new Date(date).toLocaleDateString('pt-BR', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+        try {
+            // Importa dinamicamente a biblioteca jsPDF
+            const { jsPDF } = await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+            const doc = new jsPDF.jsPDF();
             
-            doc.setFontSize(12);
-            doc.text(formattedDate, 20, yPos);
-            yPos += 10;
+            const schedules = Storage.getAllSchedules();
+            const title = 'EasyShift Planner - Relatório de Escalas';
             
-            daySchedules.forEach(schedule => {
-                const scheduleText = `${schedule.employee}: ${schedule.startTime}${schedule.startPeriod} - ${schedule.endTime}${schedule.endPeriod}`;
-                doc.setFontSize(10);
-                doc.text(scheduleText, 30, yPos);
-                yPos += 7;
+            doc.setFontSize(16);
+            doc.text(title, 20, 20);
+            
+            let yPos = 40;
+            Object.entries(schedules).forEach(([date, daySchedules]) => {
+                const formattedDate = new Date(date).toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
                 
-                // Adiciona nova página se necessário
-                if (yPos > 280) {
-                    doc.addPage();
-                    yPos = 20;
-                }
+                doc.setFontSize(12);
+                doc.text(formattedDate, 20, yPos);
+                yPos += 10;
+                
+                daySchedules.forEach(schedule => {
+                    const scheduleText = `${schedule.employee}: ${schedule.startTime}${schedule.startPeriod} - ${schedule.endTime}${schedule.endPeriod}`;
+                    doc.setFontSize(10);
+                    doc.text(scheduleText, 30, yPos);
+                    yPos += 7;
+                    
+                    if (yPos > 280) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+                });
+                
+                yPos += 5;
             });
             
-            yPos += 5;
-        });
-        
-        doc.save('escalas.pdf');
+            doc.save('escalas.pdf');
+        } catch (error) {
+            console.error('Erro ao exportar para PDF:', error);
+        }
     }
     
     static exportToExcel() {
